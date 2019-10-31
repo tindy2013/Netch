@@ -173,12 +173,12 @@ namespace Netch.Utils
                         }
                         if (text.Contains("?"))
                         {
-                            var finder = new Regex(@"^(?<data>.+?)\?plugin=(?<plugin>.+)$");
+                            var finder = new Regex(@"^(?<data>.+?)\?(.+)$");
                             var match = finder.Match(text);
-
+                            
                             if (match.Success)
                             {
-                                var plugins = HttpUtility.UrlDecode(match.Groups["plugin"].Value);
+                                var plugins = HttpUtility.UrlDecode(HttpUtility.ParseQueryString(new Uri(text).Query).Get("plugin"));
                                 var plugin = plugins.Substring(0, plugins.IndexOf(";"));
                                 var pluginopts = plugins.Substring(plugins.IndexOf(";") + 1);
                                 if (plugin == "obfs-local" || plugin == "simple-obfs")
